@@ -1,0 +1,22 @@
+				Regles du jeu Othello :
+
+
+Au debut de la partie 2 pions blancs et 2 pions noirs sont poses au centre du plateau de jeu
+Le joueur des pions noirs commence
+
+Comment poser un pion :
+
+A son tour de jeu, le joueur doit poser un pion de sa couleur sur une case vide de l’othellier,
+adjacente à un pion adverse. Il doit également, en posant son pion, encadrer un ou plusieurs pions
+adverses entre le pion qu’il pose et un pion à sa couleur, déjà placé sur l’othellier. Il retourne alors de
+sa couleur le ou les pions qu’il vient d’encadrer. 
+Les pions ne sont ni retirés de l’othellier, ni déplacés
+d’une case à l’autre.
+les pions retournés ne peuvent pas servir à en retourner d’autres lors du même tour de jeu
+
+Fin de partie : 
+
+La partie est terminée lorsqu’aucun des deux joueurs ne peut plus jouer. Cela arrive généralement
+lorsque les 64 cases sont occupées. Mais il se peut qu’il reste des cases vides où personne ne peut
+plus jouer : par exemple lorsque tous les pions deviennent d’une même couleur après un
+retournement ou bien comme sur cette position.

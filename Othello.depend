@@ -1,0 +1,126 @@
+# depslib dependency file v1.0
+1491243592 source:c:\users\mustafa\desktop\cours tp td info\othello\console.cpp
+	"console.h"
+	<conio.h>
+	<windows.h>
+
+1491243612 c:\users\mustafa\desktop\cours tp td info\othello\console.h
+	<iostream>
+
+1492022534 source:c:\users\mustafa\desktop\cours tp td info\othello\main.cpp
+	<iostream>
+	"Pion.h"
+	"Plateau.h"
+	<windows.h>
+	"Console.h"
+	<mmsystem.h>
+
+1491934208 source:c:\users\mustafa\desktop\cours tp td info\othello\pion.cpp
+	"Pion.h"
+	<iostream>
+	<string.h>
+	"Console.h"
+	<string>
+
+1491934046 c:\users\mustafa\desktop\cours tp td info\othello\pion.h
+	"Console.h"
+	<string>
+
+1492603855 source:c:\users\mustafa\desktop\cours tp td info\othello\plateau.cpp
+	"Plateau.h"
+	<conio.h>
+	<windows.h>
+	<vector>
+	"Pion.h"
+	"console.h"
+
+1491934046 c:\users\mustafa\desktop\cours tp td info\othello\plateau.h
+	<vector>
+	<iostream>
+	"Pion.h"
+
+1491243592 source:c:\users\mustafa\desktop\cours tp td info\projets\othello\console.cpp
+	"console.h"
+	<conio.h>
+	<windows.h>
+
+1492691864 c:\users\mustafa\desktop\cours tp td info\projets\othello\console.h
+	<iostream>
+	<fstream>
+
+1491934208 source:c:\users\mustafa\desktop\cours tp td info\projets\othello\pion.cpp
+	"Pion.h"
+	<iostream>
+	<string.h>
+	"Console.h"
+	<string>
+
+1491934046 c:\users\mustafa\desktop\cours tp td info\projets\othello\pion.h
+	"Console.h"
+	<string>
+
+1492701795 source:c:\users\mustafa\desktop\cours tp td info\projets\othello\plateau.cpp
+	"Plateau.h"
+	<conio.h>
+	<windows.h>
+	<vector>
+	"Pion.h"
+	"console.h"
+
+1492698439 c:\users\mustafa\desktop\cours tp td info\projets\othello\plateau.h
+	<vector>
+	<iostream>
+	"Pion.h"
+
+1492695608 source:c:\users\mustafa\desktop\cours tp td info\projets\othello\main.cpp
+	<iostream>
+	<conio.h>
+	"Pion.h"
+	"Plateau.h"
+	<windows.h>
+	"Console.h"
+	<mmsystem.h>
+
+1491243592 source:d:\bitbucket\othello\console.cpp
+	"console.h"
+	<conio.h>
+	<windows.h>
+
+1492691864 d:\bitbucket\othello\console.h
+	<iostream>
+	<fstream>
+
+1492787612 source:d:\bitbucket\othello\main.cpp
+	<iostream>
+	<conio.h>
+	"Pion.h"
+	"Plateau.h"
+	<windows.h>
+	"Console.h"
+	<mmsystem.h>
+
+1491934046 d:\bitbucket\othello\pion.h
+	"Console.h"
+	<string>
+
+1492798345 d:\bitbucket\othello\plateau.h
+	<vector>
+	<iostream>
+	"Pion.h"
+
+1491934208 source:d:\bitbucket\othello\pion.cpp
+	"Pion.h"
+	<iostream>
+	<string.h>
+	"Console.h"
+	<string>
+
+1492798458 source:d:\bitbucket\othello\plateau.cpp
+	"Plateau.h"
+	<conio.h>
+	<windows.h>
+	<vector>
+	"Pion.h"
+	"console.h"
+	"time.h"
+
