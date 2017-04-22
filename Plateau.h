@@ -10,6 +10,7 @@ private :
     vector <vector<Pion*> > plateauJeu;
     int m_compteurPionNoirs=0;
     int m_compteurPionBlancs=0;
+    int compteurPions=0;
     int m_tour =0;
 
 public :

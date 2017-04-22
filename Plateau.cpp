@@ -71,7 +71,6 @@ Coordonnes Plateau::parcoursMatrice()
     vector <Coordonnes> matriceCoordonnees;
     srand(time(NULL));
     Console* pConsole;
-    int tailleMatrice;
     int hasard;
     Coordonnes maCoord;
     int i,j;
@@ -87,12 +86,13 @@ Coordonnes Plateau::parcoursMatrice()
             }
         }
     }
-    hasard = rand()% matriceCoordonnees.size();
 
-    pConsole->gotoLigCol(25,25);
-    return matriceCoordonnees[hasard];
-
-
+    if(finDeJeu()==false)
+    {
+        hasard = rand()% matriceCoordonnees.size();
+        pConsole->gotoLigCol(25,25);
+        return matriceCoordonnees[hasard];
+    }
 }
 
 bool Plateau::blindageAjouterPionIA(Coordonnes maCoord)
@@ -903,7 +903,9 @@ void Plateau::menuQuitter()
 
 void Plateau::menuJeu()
 {
+    int i,j;
     int choix;
+    bool finJeu;
     ifstream fichier("Regles du jeu.txt", ios::in);
     char menu;
     Coordonnes maCoord;
@@ -975,9 +977,43 @@ void Plateau::menuJeu()
                     setTour(1);
                 }
             }
+            pConsole->gotoLigCol(12,45);
+            cout<<compteurPions;
+            system("PAUSE");
 
         }
-        while(choix!=0);
+        while(finDeJeu()==false);
+        system("cls");
+        system("PAUSE");
+        for(i=0; i<8; i++)
+        {
+            for(j=0; j<8; j++)
+            {
+                if(plateauJeu[i][j]->getType()=="N")
+                {
+                    m_compteurPionNoirs++;
+                }
+                if(plateauJeu[i][j]->getType()=="B")
+                {
+                    m_compteurPionBlancs++;
+                }
+            }
+        }
+        if(m_compteurPionBlancs>m_compteurPionNoirs)
+        {
+            pConsole->gotoLigCol(12,20);
+            cout<<"FIN DU JEU LES BROS LES BLANCS ONT GAGNE";
+        }
+        if(m_compteurPionBlancs<m_compteurPionNoirs)
+        {
+            pConsole->gotoLigCol(12,20);
+            cout<<"FIN DU JEU LES BROS LES NOIRS ONT GAGNE";
+        }
+        if(m_compteurPionBlancs==m_compteurPionNoirs)
+        {
+            pConsole->gotoLigCol(12,20);
+            cout<<"EGALITE";
+        }
         break;
 
     case '2':
@@ -1638,6 +1674,7 @@ void Plateau::ajouterPionIA(Coordonnes maCoord2)
     if(blindageAjouterPionSansConversion(maCoord2))
     {
         plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
+        compteurPions++;
         setTour(1);
     }
 
@@ -1657,6 +1694,7 @@ void Plateau::ajouterPion(Coordonnes maCoord)
         if(blindageAjouterPion(maCoord))
         {
             plateauJeu[posx][posy] = new Pion("N",posx,posy,0);
+            compteurPions++;
             setTour(1);
         }
     }
@@ -1665,6 +1703,7 @@ void Plateau::ajouterPion(Coordonnes maCoord)
         if(blindageAjouterPion(maCoord))
         {
             plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
+            compteurPions++;
             setTour(1);
         }
     }
@@ -1682,20 +1721,21 @@ void Plateau::setTour(int _tour)
 
 bool Plateau::finDeJeu()
 {
+    Console* pConsole;
     int i,j;
-    int compteur=0;
-    for(i=0;i<8;i++)
+    ///compteurPions=0;
+    for(i=0; i<8; i++)
     {
-        for(j=0;j<8;j++)
+        for(j=0; j<8; j++)
         {
-            if(plateauJeu[i][j]->getType()==" ")
+            if(plateauJeu[i][j]->getType()=="N")
             {
-                compteur++;
+                compteurPions++;
             }
         }
     }
 
-    if(compteur==0)
+    if(compteurPions==60)
     {
         return true;
     }
