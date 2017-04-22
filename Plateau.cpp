@@ -101,6 +101,7 @@ bool Plateau::blindageAjouterPionIA(Coordonnes maCoord)
     int posy=maCoord.y;
     Console* pConsole;
 
+
     if(plateauJeu[posx][posy]->getType()==" ")
     {
         if(m_tour%2==0)
@@ -901,6 +902,52 @@ void Plateau::menuQuitter()
     }
 }
 
+void Plateau::vsIA()
+{
+    int i,j;
+    int choix;
+    int blind;
+    bool finJeu;
+    ifstream fichier("Regles du jeu.txt", ios::in);
+    char menu;
+    Coordonnes maCoord;
+    Coordonnes maCoord2;
+    Console* pConsole;
+    Plateau plateauDeJeu;
+    do
+    {
+        system("cls");
+        pConsole->gotoLigCol(1,30);
+        plateauDeJeu.afficher();
+        if(casePossible())
+        {
+            if(m_tour%2==1)
+            {
+                maCoord2 = plateauDeJeu.parcoursMatrice();
+                plateauDeJeu.ajouterPionIA(maCoord2);
+            }
+            else
+            {
+                maCoord = plateauDeJeu.Curseur();
+                plateauDeJeu.ajouterPion(maCoord);
+            }
+            plateauDeJeu.retournerPion();
+            plateauDeJeu.afficher();
+            pConsole->gotoLigCol(5,45);
+            ///system("PAUSE");
+            setTour(1);
+        }
+        else
+        {
+            pConsole->gotoLigCol(11,45);
+            cout<<"Aucune possibilite, tour adverse";
+            pConsole->gotoLigCol(12,45);
+            system("PAUSE");
+        }
+    }
+    while(finDeJeu()==false);
+}
+
 void Plateau::menuJeu()
 {
     int i,j;
@@ -930,59 +977,7 @@ void Plateau::menuJeu()
     switch(menu)
     {
     case '1':
-        do
-        {
-            if(m_tour%2==1)
-            {
-                system("cls");
-                pConsole->gotoLigCol(1,30);
-                plateauDeJeu.afficher();
-                if(casePossible())
-                {
-                    maCoord2 = plateauDeJeu.parcoursMatrice();
-                    plateauDeJeu.ajouterPionIA(maCoord2);
-                    plateauDeJeu.retournerPion();
-                    plateauDeJeu.afficher();
-                    setTour(1);
-                }
-                if(casePossible()==false)
-                {
-                    pConsole->gotoLigCol(11,45);
-                    cout<<"Aucune possibilite, tour adverse";
-                    pConsole->gotoLigCol(12,45);
-                    system("PAUSE");
-                    setTour(1);
-                }
-            }
-            if(m_tour%2==0)
-            {
-                system("cls");
-                pConsole->gotoLigCol(1,30);
-                plateauDeJeu.afficher();
-                if(casePossible())
-                {
-                    maCoord = plateauDeJeu.Curseur();
-                    plateauDeJeu.ajouterPion(maCoord);
-                    plateauDeJeu.retournerPion();
-                    plateauDeJeu.afficher();
-                    system("PAUSE");
-                    setTour(1);
-                }
-                if(casePossible()==false)
-                {
-                    pConsole->gotoLigCol(11,45);
-                    cout<<"Aucune possibilite, tour adverse";
-                    pConsole->gotoLigCol(12,45);
-                    system("PAUSE");
-                    setTour(1);
-                }
-            }
-            pConsole->gotoLigCol(12,45);
-            cout<<compteurPions;
-            system("PAUSE");
-
-        }
-        while(finDeJeu()==false);
+        vsIA();
         system("cls");
         system("PAUSE");
         for(i=0; i<8; i++)
@@ -1141,7 +1136,6 @@ void Plateau::afficher()
             plateauJeu[i][j]->afficherPion();
         }
     }
-
 }
 
 Coordonnes Plateau::Curseur()
@@ -1646,7 +1640,7 @@ bool Plateau::blindageAjouterPion(Coordonnes maCoord)
 void Plateau::retournerPion()
 {
     int a,b;
-
+    Console* pConsole;
     for(a=0; a<8; a++)
     {
         for(b=0; b<8; b++)
@@ -1669,13 +1663,21 @@ void Plateau::ajouterPionIA(Coordonnes maCoord2)
 {
     int posx=maCoord2.x;
     int posy=maCoord2.y;
-    int choix;
 
     if(blindageAjouterPionSansConversion(maCoord2))
     {
-        plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
-        compteurPions++;
+        if(m_tour%2==1)
+        {
+            plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
+            compteurPions++;
+        }
+        if(m_tour%2==0)
+        {
+            plateauJeu[posx][posy] = new Pion("N",posx,posy,0);
+            compteurPions++;
+        }
         setTour(1);
+
     }
 
 }
@@ -1684,28 +1686,24 @@ void Plateau::ajouterPion(Coordonnes maCoord)
 {
     int posx=maCoord.x;
     int posy=maCoord.y;
-    int choix;
+    Console* pConsole;
 
     posx = (posx/4)-(7/4);
     posy = (posy/2)-2;
 
-    if(m_tour%2==0)
+    if(blindageAjouterPion(maCoord))
     {
-        if(blindageAjouterPion(maCoord))
+        if(m_tour%2==0)
         {
             plateauJeu[posx][posy] = new Pion("N",posx,posy,0);
-            compteurPions++;
-            setTour(1);
+
         }
-    }
-    if(m_tour%2==1)
-    {
-        if(blindageAjouterPion(maCoord))
+        else if(m_tour%2==1)
         {
             plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
-            compteurPions++;
-            setTour(1);
+
         }
+        setTour(1);
     }
 }
 

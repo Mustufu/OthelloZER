@@ -146,7 +146,7 @@
 	"Console.h"
 	<string>
 
-1492864008 c:\users\mustafa\documents\othellozer\plateau.h
+1492884257 c:\users\mustafa\documents\othellozer\plateau.h
 	<vector>
 	<iostream>
 	"Pion.h"
@@ -158,7 +158,7 @@
 	"Console.h"
 	<string>
 
-1492867345 source:c:\users\mustafa\documents\othellozer\plateau.cpp
+1492893412 source:c:\users\mustafa\documents\othellozer\plateau.cpp
 	"Plateau.h"
 	<conio.h>
 	<windows.h>

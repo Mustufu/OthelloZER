@@ -11,7 +11,7 @@ private :
     int m_compteurPionNoirs=0;
     int m_compteurPionBlancs=0;
     int compteurPions=0;
-    int m_tour =0;
+    int m_tour=0;
 
 public :
 
@@ -25,6 +25,7 @@ public :
     Coordonnes parcoursMatrice();
     int getTour();
     bool finDeJeu();
+    void vsIA();
     bool casePossible();
     bool blindageAjouterPion(Coordonnes maCoord);
     bool blindageAjouterPionIA(Coordonnes maCoord2);
