@@ -1680,10 +1680,10 @@ void Plateau::setTour(int _tour)
     m_tour=m_tour+_tour;
 }
 
-void Plateau::finDeJeu()
+bool Plateau::finDeJeu()
 {
     int i,j;
-    int compteur;
+    int compteur=0;
     for(i=0;i<8;i++)
     {
         for(j=0;j<8;j++)
@@ -1695,4 +1695,12 @@ void Plateau::finDeJeu()
         }
     }
 
+    if(compteur==0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

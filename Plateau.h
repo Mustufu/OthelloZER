@@ -23,6 +23,7 @@ public :
     void ajouterPion(Coordonnes maCoord);
     Coordonnes parcoursMatrice();
     int getTour();
+    bool finDeJeu();
     bool casePossible();
     bool blindageAjouterPion(Coordonnes maCoord);
     bool blindageAjouterPionIA(Coordonnes maCoord2);
