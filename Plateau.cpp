@@ -38,7 +38,7 @@ Plateau::~Plateau()
     ///destructeur
 }
 
-bool Plateau::casePossible()
+bool Plateau::casePossible(int _tour)
 {
     vector <Coordonnes> matriceCoordonnees;
     Console* pConsole;
@@ -50,7 +50,7 @@ bool Plateau::casePossible()
         {
             maCoord.x=i;
             maCoord.y=j;
-            if(blindageAjouterPionIA(maCoord))
+            if(blindageAjouterPionIA(maCoord, _tour))
             {
                 matriceCoordonnees.push_back(maCoord);
             }
@@ -66,7 +66,7 @@ bool Plateau::casePossible()
     }
 }
 
-Coordonnes Plateau::parcoursMatrice()
+Coordonnes Plateau::parcoursMatrice(int _tour)
 {
     vector <Coordonnes> matriceCoordonnees;
     srand(time(NULL));
@@ -80,22 +80,22 @@ Coordonnes Plateau::parcoursMatrice()
         {
             maCoord.x=i;
             maCoord.y=j;
-            if(blindageAjouterPionIA(maCoord))
+            if(blindageAjouterPionIA(maCoord, _tour))
             {
                 matriceCoordonnees.push_back(maCoord);
             }
         }
     }
 
-    if(finDeJeu()==false)
-    {
+    ///if(finDeJeu()==false)
+    ///{
         hasard = rand()% matriceCoordonnees.size();
-        pConsole->gotoLigCol(25,25);
         return matriceCoordonnees[hasard];
-    }
+
+    ///}
 }
 
-bool Plateau::blindageAjouterPionIA(Coordonnes maCoord)
+bool Plateau::blindageAjouterPionIA(Coordonnes maCoord, int _tour)
 {
     int posx=maCoord.x;
     int posy=maCoord.y;
@@ -104,7 +104,7 @@ bool Plateau::blindageAjouterPionIA(Coordonnes maCoord)
 
     if(plateauJeu[posx][posy]->getType()==" ")
     {
-        if(m_tour%2==0)
+        if(_tour%2==0)
         {
             ///if((plateauJeu[posx+1][posy]->getType()=="B")||(plateauJeu[posx-1][posy]->getType()=="B")||(plateauJeu[posx][posy+1]->getType()=="B")||(plateauJeu[posx][posy-1]->getType()=="B"))
             ///{
@@ -268,7 +268,7 @@ bool Plateau::blindageAjouterPionIA(Coordonnes maCoord)
             }
             ///}
         }
-        if(m_tour%2==1)
+        if(_tour%2==1)
         {
             ///if((plateauJeu[posx+1][posy]->getType()=="N")||(plateauJeu[posx-1][posy]->getType()=="N")||(plateauJeu[posx][posy+1]->getType()=="N")||(plateauJeu[posx][posy-1]->getType()=="N"))
             ///{
@@ -437,7 +437,7 @@ bool Plateau::blindageAjouterPionIA(Coordonnes maCoord)
 
 }
 
-bool Plateau::blindageAjouterPionSansConversion(Coordonnes maCoord)
+bool Plateau::blindageAjouterPionSansConversion(Coordonnes maCoord, int _tour)
 {
 
     int posx=maCoord.x;
@@ -446,7 +446,7 @@ bool Plateau::blindageAjouterPionSansConversion(Coordonnes maCoord)
 
     if(plateauJeu[posx][posy]->getType()==" ")
     {
-        if(m_tour%2==0)
+        if(_tour%2==0)
         {
             ///if((plateauJeu[posx+1][posy]->getType()=="B")||(plateauJeu[posx-1][posy]->getType()=="B")||(plateauJeu[posx][posy+1]->getType()=="B")||(plateauJeu[posx][posy-1]->getType()=="B"))
             ///{
@@ -654,7 +654,7 @@ bool Plateau::blindageAjouterPionSansConversion(Coordonnes maCoord)
             }
             ///}
         }
-        if(m_tour%2==1)
+        if(_tour%2==1)
         {
             ///if((plateauJeu[posx+1][posy]->getType()=="N")||(plateauJeu[posx-1][posy]->getType()=="N")||(plateauJeu[posx][posy+1]->getType()=="N")||(plateauJeu[posx][posy-1]->getType()=="N"))
             ///{
@@ -907,6 +907,8 @@ void Plateau::vsIA()
     int i,j;
     int choix;
     int blind;
+    bool tour;
+    bool tour2;
     bool finJeu;
     ifstream fichier("Regles du jeu.txt", ios::in);
     char menu;
@@ -918,24 +920,31 @@ void Plateau::vsIA()
     {
         system("cls");
         pConsole->gotoLigCol(1,30);
-        plateauDeJeu.afficher();
-        if(casePossible())
+        plateauDeJeu.afficher(m_tour);
+
+        if(casePossible(m_tour))
         {
             if(m_tour%2==1)
             {
-                maCoord2 = plateauDeJeu.parcoursMatrice();
-                plateauDeJeu.ajouterPionIA(maCoord2);
+                maCoord2 = plateauDeJeu.parcoursMatrice(m_tour);
+                tour2 = plateauDeJeu.ajouterPionIA(maCoord2, m_tour);
+                if(tour2==true)
+                {
+                    setTour(1);
+                }
             }
             else
             {
-                maCoord = plateauDeJeu.Curseur();
-                plateauDeJeu.ajouterPion(maCoord);
+                do
+                {
+                    maCoord = plateauDeJeu.Curseur();
+                    tour = plateauDeJeu.ajouterPion(maCoord);
+                }
+                while(tour==false);
+                setTour(1);
             }
             plateauDeJeu.retournerPion();
-            plateauDeJeu.afficher();
-            pConsole->gotoLigCol(5,45);
-            ///system("PAUSE");
-            setTour(1);
+            plateauDeJeu.afficher(m_tour);
         }
         else
         {
@@ -945,7 +954,7 @@ void Plateau::vsIA()
             system("PAUSE");
         }
     }
-    while(finDeJeu()==false);
+    while(1);
 }
 
 void Plateau::menuJeu()
@@ -1016,11 +1025,11 @@ void Plateau::menuJeu()
         {
             system("cls");
             pConsole->gotoLigCol(1,30);
-            plateauDeJeu.afficher();
+            plateauDeJeu.afficher(m_tour);
             maCoord = plateauDeJeu.Curseur();
             plateauDeJeu.ajouterPion(maCoord);
             plateauDeJeu.retournerPion();
-            plateauDeJeu.afficher();
+            plateauDeJeu.afficher(m_tour);
         }
         while(choix!=0);
         break;
@@ -1056,18 +1065,18 @@ void Plateau::menuJeu()
     }
 }
 
-void Plateau::afficher()
+void Plateau::afficher(int _tour)
 {
     Console* pConsole = NULL;
 
     /// Alloue la mémoire du pointeur
     pConsole = Console::getInstance();
     pConsole->gotoLigCol(10,45);
-    if(m_tour%2==0)
+    if(_tour%2==0)
     {
         cout<<"Tour des noirs";
     }
-    if(m_tour%2==1)
+    if(_tour%2==1)
     {
         cout<<"Tours des blancs";
     }
@@ -1659,30 +1668,27 @@ void Plateau::retournerPion()
     }
 }
 
-void Plateau::ajouterPionIA(Coordonnes maCoord2)
+bool Plateau::ajouterPionIA(Coordonnes maCoord2, int _tour)
 {
     int posx=maCoord2.x;
     int posy=maCoord2.y;
 
-    if(blindageAjouterPionSansConversion(maCoord2))
+    if(blindageAjouterPionSansConversion(maCoord2, _tour))
     {
-        if(m_tour%2==1)
+        if(_tour%2==1)
         {
             plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
-            compteurPions++;
         }
-        if(m_tour%2==0)
+        if(_tour%2==0)
         {
             plateauJeu[posx][posy] = new Pion("N",posx,posy,0);
-            compteurPions++;
         }
-        setTour(1);
+        return true;
 
     }
-
 }
 
-void Plateau::ajouterPion(Coordonnes maCoord)
+bool Plateau::ajouterPion(Coordonnes maCoord)
 {
     int posx=maCoord.x;
     int posy=maCoord.y;
@@ -1703,7 +1709,8 @@ void Plateau::ajouterPion(Coordonnes maCoord)
             plateauJeu[posx][posy] = new Pion("B",posx,posy,0);
 
         }
-        setTour(1);
+        return true;
+        ///setTour(1);
     }
 }
 
@@ -1717,7 +1724,7 @@ void Plateau::setTour(int _tour)
     m_tour=m_tour+_tour;
 }
 
-bool Plateau::finDeJeu()
+/*bool Plateau::finDeJeu()
 {
     Console* pConsole;
     int i,j;
@@ -1741,4 +1748,4 @@ bool Plateau::finDeJeu()
     {
         return false;
     }
-}
+}*/

@@ -17,20 +17,20 @@ public :
 
     Plateau();
     ~Plateau();
-    void afficher();
+    void afficher(int _tour);
     Coordonnes Curseur();
     void menuJeu();
     void menuQuitter();
-    void ajouterPion(Coordonnes maCoord);
-    Coordonnes parcoursMatrice();
+    bool ajouterPion(Coordonnes maCoord);
+    Coordonnes parcoursMatrice(int _tour);
     int getTour();
     bool finDeJeu();
     void vsIA();
-    bool casePossible();
+    bool casePossible(int _tour);
     bool blindageAjouterPion(Coordonnes maCoord);
-    bool blindageAjouterPionIA(Coordonnes maCoord2);
-    bool blindageAjouterPionSansConversion(Coordonnes maCoord);
-    void ajouterPionIA(Coordonnes maCoord2);
+    bool blindageAjouterPionIA(Coordonnes maCoord2, int _tour);
+    bool blindageAjouterPionSansConversion(Coordonnes maCoord, int _tour);
+    bool ajouterPionIA(Coordonnes maCoord2, int _tour);
     void setTour(int _tour);
     void retournerPion();
 };
