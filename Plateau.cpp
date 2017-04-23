@@ -56,6 +56,17 @@ bool Plateau::casePossible(int _tour)
             }
         }
     }
+
+
+    for(int a=0;a<matriceCoordonnees.size();a++)
+    {
+        pConsole->gotoLigCol(12,45);
+        cout<<"Coups possibles : ";
+        pConsole->gotoLigCol(14+a,45);
+        cout<<"pos x : "<<matriceCoordonnees[a].x<<"          pos y : "<<matriceCoordonnees[a].y;
+    }
+
+
     if(matriceCoordonnees.size()==0)
     {
         return false;
@@ -89,8 +100,8 @@ Coordonnes Plateau::parcoursMatrice(int _tour)
 
     ///if(finDeJeu()==false)
     ///{
-        hasard = rand()% matriceCoordonnees.size();
-        return matriceCoordonnees[hasard];
+    hasard = rand()% matriceCoordonnees.size();
+    return matriceCoordonnees[hasard];
 
     ///}
 }
@@ -902,65 +913,13 @@ void Plateau::menuQuitter()
     }
 }
 
-void Plateau::vsIA()
-{
-    int i,j;
-    int choix;
-    int blind;
-    bool tour;
-    bool tour2;
-    bool finJeu;
-    ifstream fichier("Regles du jeu.txt", ios::in);
-    char menu;
-    Coordonnes maCoord;
-    Coordonnes maCoord2;
-    Console* pConsole;
-    Plateau plateauDeJeu;
-    do
-    {
-        system("cls");
-        pConsole->gotoLigCol(1,30);
-        plateauDeJeu.afficher(m_tour);
-
-        if(casePossible(m_tour))
-        {
-            if(m_tour%2==1)
-            {
-                maCoord2 = plateauDeJeu.parcoursMatrice(m_tour);
-                tour2 = plateauDeJeu.ajouterPionIA(maCoord2, m_tour);
-                if(tour2==true)
-                {
-                    setTour(1);
-                }
-            }
-            else
-            {
-                do
-                {
-                    maCoord = plateauDeJeu.Curseur();
-                    tour = plateauDeJeu.ajouterPion(maCoord);
-                }
-                while(tour==false);
-                setTour(1);
-            }
-            plateauDeJeu.retournerPion();
-            plateauDeJeu.afficher(m_tour);
-        }
-        else
-        {
-            pConsole->gotoLigCol(11,45);
-            cout<<"Aucune possibilite, tour adverse";
-            pConsole->gotoLigCol(12,45);
-            system("PAUSE");
-        }
-    }
-    while(1);
-}
-
 void Plateau::menuJeu()
 {
-    int i,j;
+    int i,j, score;
     int choix;
+    int blind=0;
+    bool tour;
+    bool tour2;
     bool finJeu;
     ifstream fichier("Regles du jeu.txt", ios::in);
     char menu;
@@ -986,34 +945,75 @@ void Plateau::menuJeu()
     switch(menu)
     {
     case '1':
-        vsIA();
-        system("cls");
-        system("PAUSE");
-        for(i=0; i<8; i++)
+        ///plateauDeJeu.vsIA();
+        do
         {
-            for(j=0; j<8; j++)
+            system("cls");
+            pConsole->gotoLigCol(1,30);
+            plateauDeJeu.afficher(m_tour);
+
+            if(plateauDeJeu.casePossible(m_tour))
             {
-                if(plateauJeu[i][j]->getType()=="N")
+                if(m_tour%2==1)
                 {
-                    m_compteurPionNoirs++;
+                    maCoord2 = plateauDeJeu.parcoursMatrice(m_tour);
+                    tour2 = plateauDeJeu.ajouterPionIA(maCoord2, m_tour);
+                    if(tour2==true)
+                    {
+                        setTour(1);
+                        compteurPions++;
+                    }
                 }
-                if(plateauJeu[i][j]->getType()=="B")
+                else
                 {
-                    m_compteurPionBlancs++;
+                    do
+                    {
+                        maCoord = plateauDeJeu.Curseur();
+                        tour = plateauDeJeu.ajouterPion(maCoord);
+                        if(tour==false)
+                        {
+                            pConsole->gotoLigCol(2,45);
+                            cout<<"Choix incorrect, veuillez essayer a nouveau";
+                            pConsole->gotoLigCol(3,45);
+                            system("PAUSE");
+                        }
+                    }
+                    while(tour==false);
+                    setTour(1);
+                    compteurPions++;
+                }
+                plateauDeJeu.retournerPion();
+                plateauDeJeu.afficher(m_tour);
+                if(compteurPions==64)
+                {
+                    break;
                 }
             }
+            else
+            {
+                pConsole->gotoLigCol(11,45);
+                cout<<"Aucune possibilite, tour adverse";
+                pConsole->gotoLigCol(12,45);
+                system("PAUSE");
+                setTour(1);
+            }
         }
-        if(m_compteurPionBlancs>m_compteurPionNoirs)
+        while(1);
+        system("PAUSE");
+        system("cls");
+        system("PAUSE");
+        score = plateauDeJeu.compteScore();
+        if(score==1)
         {
             pConsole->gotoLigCol(12,20);
             cout<<"FIN DU JEU LES BROS LES BLANCS ONT GAGNE";
         }
-        if(m_compteurPionBlancs<m_compteurPionNoirs)
+        if(score==2)
         {
             pConsole->gotoLigCol(12,20);
             cout<<"FIN DU JEU LES BROS LES NOIRS ONT GAGNE";
         }
-        if(m_compteurPionBlancs==m_compteurPionNoirs)
+        if(score==0)
         {
             pConsole->gotoLigCol(12,20);
             cout<<"EGALITE";
@@ -1030,6 +1030,7 @@ void Plateau::menuJeu()
             plateauDeJeu.ajouterPion(maCoord);
             plateauDeJeu.retournerPion();
             plateauDeJeu.afficher(m_tour);
+            setTour(1);
         }
         while(choix!=0);
         break;
@@ -1082,6 +1083,8 @@ void Plateau::afficher(int _tour)
     }
 
     ///Affichage de la grille de jeu sur la console avec les reperes
+
+    pConsole->_setColor(12,0);
 
     pConsole->gotoLigCol(4,4);
     cout<<"A";
@@ -1145,6 +1148,29 @@ void Plateau::afficher(int _tour)
             plateauJeu[i][j]->afficherPion();
         }
     }
+
+    int blancs=0;
+    int noirs=0;
+
+    for(int i=0; i<8; i++)
+    {
+        for(int j=0; j<8; j++)
+        {
+            if(plateauJeu[i][j]->getType()=="N")
+            {
+                noirs++;
+            }
+            if(plateauJeu[i][j]->getType()=="B")
+            {
+                blancs++;
+            }
+        }
+    }
+
+    pConsole->gotoLigCol(4,40);
+    cout<<"Nombre de pions noirs : "<<noirs;
+    pConsole->gotoLigCol(4,70);
+    cout<<"Nombre de pions blancs : "<<blancs;
 }
 
 Coordonnes Plateau::Curseur()
@@ -1684,7 +1710,6 @@ bool Plateau::ajouterPionIA(Coordonnes maCoord2, int _tour)
             plateauJeu[posx][posy] = new Pion("N",posx,posy,0);
         }
         return true;
-
     }
 }
 
@@ -1724,28 +1749,39 @@ void Plateau::setTour(int _tour)
     m_tour=m_tour+_tour;
 }
 
-/*bool Plateau::finDeJeu()
+int Plateau::compteScore()
 {
     Console* pConsole;
-    int i,j;
-    ///compteurPions=0;
-    for(i=0; i<8; i++)
+    m_compteurPionBlancs=0;
+    m_compteurPionNoirs=0;
+    for(int i=0; i<8; i++)
     {
-        for(j=0; j<8; j++)
+        for(int j=0; j<8; j++)
         {
             if(plateauJeu[i][j]->getType()=="N")
             {
-                compteurPions++;
+                m_compteurPionNoirs++;
+            }
+            if(plateauJeu[i][j]->getType()=="B")
+            {
+                m_compteurPionBlancs++;
             }
         }
     }
+    pConsole->gotoLigCol(1,45);
+    cout<<m_compteurPionBlancs<<" "<<m_compteurPionNoirs<<" ";
+    system("PAUSE");
 
-    if(compteurPions==60)
+    if(m_compteurPionBlancs>m_compteurPionNoirs)
     {
-        return true;
+        return 1;
     }
-    else
+    if(m_compteurPionBlancs<m_compteurPionNoirs)
     {
-        return false;
+        return 2;
     }
-}*/
+    if(m_compteurPionBlancs==m_compteurPionNoirs)
+    {
+        return 0;
+    }
+}

@@ -19,11 +19,21 @@ Pion::~Pion()
 void Pion::afficherPion()
 {
     ///Affichage du pion avec conversion des coordonnées
-
+    Console* pConsole;
     int posx =(m_posx*4)+7;
     int posy =(m_posy*2)+4;
     pConsole->gotoLigCol(posy,posx);
-    cout<<m_type;
+    if(m_type=="N")
+    {
+        pConsole->_setColor(9,0);
+        cout<<m_type;
+    }
+    if(m_type=="B")
+    {
+        pConsole->_setColor(15,0);
+        cout<<m_type;
+    }
+    pConsole->_setColor(15,0);
 }
 
 string Pion::getType()

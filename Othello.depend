@@ -129,11 +129,11 @@
 	<conio.h>
 	<windows.h>
 
-1492691864 c:\users\mustafa\documents\othellozer\console.h
+1492991529 c:\users\mustafa\documents\othellozer\console.h
 	<iostream>
 	<fstream>
 
-1492787612 source:c:\users\mustafa\documents\othellozer\main.cpp
+1492990429 source:c:\users\mustafa\documents\othellozer\main.cpp
 	<iostream>
 	<conio.h>
 	"Pion.h"
@@ -146,19 +146,19 @@
 	"Console.h"
 	<string>
 
-1492978578 c:\users\mustafa\documents\othellozer\plateau.h
+1492990429 c:\users\mustafa\documents\othellozer\plateau.h
 	<vector>
 	<iostream>
 	"Pion.h"
 
-1491934208 source:c:\users\mustafa\documents\othellozer\pion.cpp
+1492992283 source:c:\users\mustafa\documents\othellozer\pion.cpp
 	"Pion.h"
 	<iostream>
 	<string.h>
 	"Console.h"
 	<string>
 
-1492977895 source:c:\users\mustafa\documents\othellozer\plateau.cpp
+1492994271 source:c:\users\mustafa\documents\othellozer\plateau.cpp
 	"Plateau.h"
 	<conio.h>
 	<windows.h>

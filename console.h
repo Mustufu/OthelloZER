@@ -23,16 +23,13 @@ class Console
         // Empecher la copie d'objet...
         Console& operator= (const Console&){ return *this;}
         Console (const Console&){}
-
-        // Attributs
         static Console* m_instance;
 
-        // Méthodes privées
-        void _setColor(int front, int back);
     public:
         // Méthodes statiques (publiques)
         static Console* getInstance();
         static void deleteInstance();
+        void _setColor(int front, int back);
 
         // Méthodes publiques
         void gotoLigCol(int lig, int col);

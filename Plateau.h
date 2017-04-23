@@ -10,7 +10,7 @@ private :
     vector <vector<Pion*> > plateauJeu;
     int m_compteurPionNoirs=0;
     int m_compteurPionBlancs=0;
-    int compteurPions=0;
+    int compteurPions=4;
     int m_tour=0;
 
 public :
@@ -18,13 +18,13 @@ public :
     Plateau();
     ~Plateau();
     void afficher(int _tour);
+    void setPionsBlancs(int _pions);
     Coordonnes Curseur();
     void menuJeu();
     void menuQuitter();
     bool ajouterPion(Coordonnes maCoord);
     Coordonnes parcoursMatrice(int _tour);
     int getTour();
-    bool finDeJeu();
     void vsIA();
     bool casePossible(int _tour);
     bool blindageAjouterPion(Coordonnes maCoord);
@@ -33,6 +33,7 @@ public :
     bool ajouterPionIA(Coordonnes maCoord2, int _tour);
     void setTour(int _tour);
     void retournerPion();
+    int compteScore();
 };
 
 #endif // PLATEAU_H_INCLUDED
