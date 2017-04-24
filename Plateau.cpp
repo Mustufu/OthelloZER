@@ -930,7 +930,7 @@ void Plateau::menuJeu()
 
     system("cls");
     pConsole->gotoLigCol(5,25);
-    cout<<"Salut a tous les gamers que voulez vous faire";
+    cout<<"Salut a tous que voulez vous faire";
     pConsole->gotoLigCol(10,25);
     cout<<"1- Jeu solo contre IA";
     pConsole->gotoLigCol(12,25);
